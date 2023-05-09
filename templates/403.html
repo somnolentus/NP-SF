@@ -1,0 +1,11 @@
+{% extends 'news/default.html' %}
+
+{% block title %}403{% endblock %}
+{% block content %}
+    <h1 class="my-4">Forbidden</h1>
+    {% if message %}
+        <p>{{ message|safe }}</p>
+    {% else %}
+        <p>You don't have a permission to enter this page / perform this action</p>
+    {% endif %}
+{% endblock %}

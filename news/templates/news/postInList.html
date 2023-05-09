@@ -1,0 +1,38 @@
+{% load news.custom_filters %}
+
+
+<div class="container-fluid rounded-5 shadow-lg p-4 my-4"
+     style="border-radius: 15px; max-width: 1000px">
+    <div class="row justify-content-between">
+        <div class="text-start col-9 overflow-auto">
+            <h2>{{ post.title | censor }}</h2>
+            <p class="fst-italic">Date: {{ post.publish_time|date:'d.m.Y' }}</p>
+            <p class="mt-4">{{ post.text | truncatewords:10 | censor }}</p>
+            <div class="mt-4">
+                {% include 'news/postCategoriesAjax.html' %}
+            </div>
+            <hr>
+            <div>
+                <span><strong>Comments:</strong> {{ post.comment_count }}</span>
+            </div>
+        </div>
+        <div class="text-end col-3 d-flex flex-column align-items-end justify-content-center overflow-hidden">
+            <div class="w-100">
+                <a class="btn btn-secondary btn-block w-100 shadow" href="{% url 'post' post.pk %}">View</a>
+            </div>
+
+            {% if is_authenticated and is_author and post.author.author_user == user  %}
+                <div class="w-100">
+                    <a class="btn btn-secondary btn-block w-100 my-3 shadow" href="{% url 'post_update' post.pk %}">Edit</a>
+                </div>
+                <div class="w-100">
+                    <button type="button" class="btn btn-secondary btn-block w-100 shadow" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal{{ post.pk }}">Del
+                    </button>
+                </div>
+                {% include 'news/postDeleteModal.html' %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
